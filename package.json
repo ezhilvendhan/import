@@ -1,0 +1,14 @@
+{
+  "name": "import",
+  "main": "./lib/import",
+  "version": "0.1.0",
+  "description": "Git clone and Open in Atom",
+  "activationEvents": ["import:toggle"],
+  "repository": "https://github.com/ezhilvendhan/import",
+  "license": "MIT",
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "dependencies": {
+  }
+}
