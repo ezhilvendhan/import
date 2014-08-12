@@ -38,29 +38,30 @@ class ImportView extends View
   doImport: ->
     @showProgressIndicator()
     url = @urlEditor.getText()
-    base = atom.config.settings.core.projectHome
-    base = process.env.HOME if not base?
-    dir = /(.*\/)?(.*)/ig.exec(url).pop()?.replace(/(.git)$/, '')
-    console.log dir, base, url
-    isDirExist = fs.existsSync(path.resolve(base, dir))
+    workspace = atom.config.settings.core.projectHome
+    defaultWorkspace = atom.config.defaultSettings.core.projectHome
+    workspace = defaultWorkspace if not workspace?
+    projDir = /(.*\/)?(.*)/ig.exec(url).pop()?.replace(/(.git)$/, '')
+    importPath = path.resolve(workspace, projDir)
+    isProjImportedAlready = fs.existsSync(importPath)
+
     cb = (err, stdout, stderr) =>
-          @showStatus()
-          if err?
-            @status.text 'Could not import the project'
-          else
-            @status.text 'The project is successfully imported'
-            if @hasParent()
-              @detach()
-            else
-              atom.workspaceView.append(this)
-    if isDirExist
-      exec "open -a atom.app #{dir}",
-        cwd: base
+      @showStatus()
+      if err?
+        @status.text 'Could not import the project'
+      else
+        @status.text 'The project is successfully imported'
+        if @hasParent()
+          @detach()
+        else
+          atom.workspaceView.append(this)
+
+    if isProjImportedAlready
+      exec "open -a atom.app #{importPath}",
         env: process.env,
         cb
     else
-      exec "git clone #{url} #{dir} && open -a atom.app #{dir}",
-        cwd: base
+      exec "mkdir -p #{workspace} && git clone #{url} #{importPath} && open -a atom.app #{importPath}",
         env: process.env,
         cb
 
