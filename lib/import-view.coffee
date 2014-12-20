@@ -38,8 +38,10 @@ class ImportView extends View
   doImport: ->
     @showProgressIndicator()
     url = @urlEditor.getText()
-    workspace = atom.config.settings.core.projectHome
-    defaultWorkspace = atom.config.defaultSettings.core.projectHome
+    workspace = atom?.config?.get?('core.projectHome')
+    _home = process.env.HOME or process.env.HOMEPATH or process.env.USERPROFILE
+    defaultWorkspace = process.env.ATOM_REPOS_HOME or
+                        path.join(_home, 'github')
     workspace = defaultWorkspace if not workspace?
     projDir = /(.*\/)?(.*)/ig.exec(url).pop()?.replace(/(.git)$/, '')
     importPath = path.resolve(workspace, projDir)
