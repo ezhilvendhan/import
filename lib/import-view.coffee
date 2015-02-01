@@ -67,7 +67,7 @@ class ImportView extends View
         env: process.env,
         cb
     else
-      exec "mkdir -p #{workspace} && git clone #{url} #{importPath} && #{@getAppLaunchCmd()} #{importPath}",
+      exec @getCreateDirIfNotExistsAndCloneCmd(workspace, url, importPath),
         env: process.env,
         cb
 
@@ -92,11 +92,18 @@ class ImportView extends View
     @progressIndicator.hide()
     @form.show()
 
+  getCreateDirIfNotExistsAndCloneCmd: (workspace, url, importPath) ->
+    platform = process.platform
+    if /^win/.test platform
+       return "mkdir #{importPath} && git clone #{url} #{importPath} && #{@getAppLaunchCmd()} #{importPath}"
+    else
+       return "mkdir -p #{workspace} && git clone #{url} #{importPath} && #{@getAppLaunchCmd()} #{importPath}"
+
   getAppLaunchCmd: ->
     platform = process.platform
     if platform == 'linux'
        return "atom "
-    else if /^win/.test process.platform
-       return "start atom.exe "
+    else if /^win/.test platform
+       return "start atom"
     else
        return "open -a atom.app "
