@@ -7,5 +7,9 @@
 
 # For more detailed documentation see
 # https://atom.io/docs/latest/advanced/keymaps
-'.workspace':
+'.platform-darwin atom-workspace':
   'ctrl-shift-i': 'import:toggle'
+'.platform-win32 atom-workspace':
+  'ctrl-shift-i': 'import:toggle'
+'.platform-linux atom-workspace':
+  'ctrl-i': 'import:toggle'

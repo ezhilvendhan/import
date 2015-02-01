@@ -21,7 +21,10 @@ class ImportView extends View
 
   initialize: (serializeState) ->
     @handleEvents()
-    atom.workspaceView.command "import:toggle", => @toggle()
+    atom.commands.add 'atom-workspace',
+      'import:toggle': =>
+        @toggle()
+    #atom.workspaceView.command "import:toggle", => @toggle()
 
   # Returns an object that can be retrieved when package is activated
   serialize: ->
@@ -32,13 +35,14 @@ class ImportView extends View
 
   toggle: ->
     @showForm()
-    atom.workspaceView.append(this)
+    atom.views.getView(atom.workspace).appendChild(this[0])
+    #atom.workspaceView.append(this)
     @urlEditor.focus()
 
   doImport: ->
     @showProgressIndicator()
     url = @urlEditor.getText()
-    workspace = atom?.config?.get?('core.projectHome')
+    workspace = atom?.config?.settings?.core?.projectHome
     _home = process.env.HOME or process.env.HOMEPATH or process.env.USERPROFILE
     defaultWorkspace = process.env.ATOM_REPOS_HOME or
                         path.join(_home, 'github')
@@ -59,11 +63,11 @@ class ImportView extends View
           atom.workspaceView.append(this)
 
     if isProjImportedAlready
-      exec "open -a atom.app #{importPath}",
+      exec @getAppLaunchCmd() + " #{importPath}",
         env: process.env,
         cb
     else
-      exec "mkdir -p #{workspace} && git clone #{url} #{importPath} && open -a atom.app #{importPath}",
+      exec "mkdir -p #{workspace} && git clone #{url} #{importPath} && #{@getAppLaunchCmd()} #{importPath}",
         env: process.env,
         cb
 
@@ -87,3 +91,12 @@ class ImportView extends View
     @status.show()
     @progressIndicator.hide()
     @form.show()
+
+  getAppLaunchCmd: ->
+    platform = process.platform
+    if platform == 'linux'
+       return "atom "
+    else if /^win/.test process.platform
+       return "start atom.exe "
+    else
+       return "open -a atom.app "
