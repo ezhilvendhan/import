@@ -6,10 +6,39 @@
   "activationEvents": [
     "import:toggle"
   ],
-  "repository": "https://github.com/ezhilvendhan/import",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ezhilvendhan/import"
+  },
   "license": "MIT",
   "engines": {
-    "atom": ">0.50.0"
+    "atom": ">=0.174.0 <2.0.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "atom-space-pen-views": "^2.0.3"
+  },
+  "readme": "# Import\n\nGit Clone and Import a project using `ctrl - shift - i` [Mac & Windows] or `ctrl - i` [Linux]\n\nInstall: `apm install import`\n\nUsage:\n  1. On Mac & Windows, `ctrl - shift - i` to open the dialog\n     On Linux, use `ctrl - i`\n  2. Enter the git repository to clone\n\nWindows Users:\n  Please ensure you have git installed and the `git` command is available on the PATH.\n\nThe project will be imported to the Atom Project Home.\nIf the project is already existing in the Home folder, then it will be imported.\nElse, it will be `git clone`d and imported.\n\nFor existing projects inside Atom Project Home, just type in the folder name\nto import.\n\n![Import](https://raw.github.com/ezhilvendhan/import/master/import.gif)\n",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/ezhilvendhan/import/issues"
+  },
+  "homepage": "https://github.com/ezhilvendhan/import",
+  "_id": "import@1.1.0",
+  "_shasum": "5aa1ef4f0e4e35dccc3b26e868e0e3656b8f8fb7",
+  "_resolved": "file:../d-11511-2833-qs4c0/package.tgz",
+  "_from": "../d-11511-2833-qs4c0/package.tgz",
+  "_atomModuleCache": {
+    "version": 1,
+    "dependencies": [],
+    "extensions": {
+      ".coffee": [
+        "lib/import-view.coffee",
+        "lib/import.coffee"
+      ],
+      ".json": [
+        "package.json"
+      ]
+    },
+    "folders": []
+  }
 }

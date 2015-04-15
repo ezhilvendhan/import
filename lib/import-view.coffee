@@ -1,4 +1,4 @@
-{EditorView, View} = require 'atom'
+{$, TextEditorView, View} = require 'atom-space-pen-views'
 exec = require('child_process').exec
 path = require 'path'
 fs = require 'fs'
@@ -12,7 +12,7 @@ class ImportView extends View
           @span outlet: 'title'
         @div class: 'panel-body padded', =>
           @div outlet: 'form', =>
-            @subview 'urlEditor', new EditorView(mini:true, placeholderText: 'Enter url to clone')
+            @subview 'urlEditor', new TextEditorView(mini:true, placeholderText: 'Enter url to clone')
             @div class: 'pull-right', =>
               @button outlet: 'importButton', class: 'btn btn-primary', 'Clone & Import'
           @div outlet: 'progressIndicator', =>
@@ -24,6 +24,12 @@ class ImportView extends View
     atom.commands.add 'atom-workspace',
       'import:toggle': =>
         @toggle()
+    atom.commands.add 'atom-text-editor',
+      'core:confirm': =>
+        @doImport()
+    atom.commands.add 'atom-text-editor',
+      'core:cancel': =>
+        @detach()
     #atom.workspaceView.command "import:toggle", => @toggle()
 
   # Returns an object that can be retrieved when package is activated
@@ -73,8 +79,6 @@ class ImportView extends View
 
   handleEvents: ->
     @importButton.on 'click', => @doImport()
-    @urlEditor.on 'core:confirm', => @doImport()
-    @urlEditor.on 'core:cancel', => @detach()
 
   showForm: ->
     @title.text "Clone & Import a Git project"
