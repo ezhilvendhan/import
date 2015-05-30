@@ -3,9 +3,9 @@
   "main": "./lib/import",
   "version": "1.2.0",
   "description": "Git clone and Open in Atom",
-  "activationEvents": [
-    "import:toggle"
-  ],
+  "activationCommands": {
+    "atom-text-editor": ["import:toggle"]
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/ezhilvendhan/import"
