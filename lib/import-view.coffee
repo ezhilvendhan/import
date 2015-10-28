@@ -66,7 +66,7 @@ class ImportView extends View
         if @hasParent()
           @detach()
         else
-          atom.workspaceView.append(this)
+          atom.views.getView(atom.workspace).append(this)
 
     if isProjImportedAlready
       exec @getAppLaunchCmd() + " #{importPath}",
