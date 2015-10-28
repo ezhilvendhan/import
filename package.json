@@ -1,7 +1,7 @@
 {
   "name": "import",
   "main": "./lib/import",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Git clone and Open in Atom",
   "activationCommands": {
     "atom-text-editor": [
